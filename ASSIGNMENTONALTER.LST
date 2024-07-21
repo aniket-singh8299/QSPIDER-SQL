@@ -1,0 +1,107 @@
+
+SQL> ALTER TABLE TEACHER
+  2  ADD PH_NO NUMBER(10) CHECK(PH_NO>0) CHECK(LENGTH(PH_NO)=10);
+
+Table altered.
+
+SQL> ALTER TABLE TEACHER
+  2  DROP COLUMN PH_NO;
+
+Table altered.
+
+SQL> ALTER TABLE TEACHER
+  2  RENAME COLUMN TNAME TO T_NAME;
+
+Table altered.
+
+SQL> RENAME TEACHER TO TEACHERS;
+
+Table renamed.
+
+SQL> ALTER TABLE TEACHERS
+  2  ADD PH_NO NUMBER(10) CHECK(PH_NO>0) CHECK(LENGTH(PH_NO)=10);
+
+Table altered.
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  ALTER TABLE TEACHERS
+  2* ADD MAIL Number(10)
+SQL> /
+
+Table altered.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  ALTER TABLE TEACHERS
+  2* modify MAIL Varchar(20)
+SQL> /
+
+Table altered.
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  ALTER TABLE TEACHERS
+  2* modify MAIL Varchar(20) Unique
+SQL> /
+
+Table altered.
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  ALTER TABLE TEACHERS
+  2  ADD AADHAR NUMBER(12) 
+  3*    CHECK (AADHAR > 0 AND LENGTH(AADHAR) = 12)
+SQL> /
+
+Table altered.
+
+SQL> ALTER TABLE TEACHERS
+  2  MODIFY AADHAR NUMBER(12) UNIQUE;
+
+Table altered.
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT CONSTRAINT_TYPE , CONSTRAINT_NAME FROM USER_CONSTRAINTS
+  2* WHERE TABLE_NAME='TEACHERS'
+SQL> /
+
+C CONSTRAINT_NAME                                                                                                                                                                                                                                                                                           
+- ------------------------------                                                                                                                                                                                                                                                                            
+C SYS_C005499                                                                                                                                                                                                                                                                                               
+C SYS_C005500                                                                                                                                                                                                                                                                                               
+C SYS_C005501                                                                                                                                                                                                                                                                                               
+C SYS_C005502                                                                                                                                                                                                                                                                                               
+P SYS_C005503                                                                                                                                                                                                                                                                                               
+U SYS_C005504                                                                                                                                                                                                                                                                                               
+R FK_SID                                                                                                                                                                                                                                                                                                    
+C SYS_C005565                                                                                                                                                                                                                                                                                               
+C SYS_C005566                                                                                                                                                                                                                                                                                               
+U SYS_C005567                                                                                                                                                                                                                                                                                               
+C SYS_C005568                                                                                                                                                                                                                                                                                               
+U SYS_C005569                                                                                                                                                                                                                                                                                               
+
+12 rows selected.
+
+SQL> ALTER TABLE TEACHERS
+  2  DROP CONSTRAINT SYS_C005567;
+
+Table altered.
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  ALTER TABLE TEACHERS
+  2* ADD CONSTRAINT FK_T_ID FOREIGN KEY(T_ID) REFERENCES TEACHERS(T_ID)
+SQL> /
+
+Table altered.
+
+SQL> SPOOL OFF;
