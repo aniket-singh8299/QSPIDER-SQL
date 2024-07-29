@@ -9,7 +9,7 @@ ENAME      ENAME
 SMITH      FORD                                                                                                                                                                                                                                                                                             
 ADAMS      SCOTT                                                                                                                                                                                                                                                                                            
 JAMES      BLAKE                                                                                                                                                                                                                                                                                            
-MILLER     CLARK                                                                                                                                                                                                                                                                                            
+MILLER     CLARK                                                                                                                                                                                                                                                                                           
 
 SQL> SELECT E.ENAME,M.JOB
   2  FROM EMP E,EMP M
@@ -122,6 +122,16 @@ FORD       JONES
 MILLER     CLARK                                                                                                                                                                                                                                                                                            
 
 8 rows selected.
+SQL> SELECT E.ENAME,M.ENAME,E.SAL*12,M.SAL*12 FROM EMP E,EMP M
+  2  WHERE E.MGR=M.EMPNO AND E.DEPTNO IN (10,20) AND M.SAL>E.SAL;
+
+ENAME      ENAME        E.SAL*12   M.SAL*12
+---------- ---------- ---------- ----------
+SMITH      FORD             9600      36000
+JONES      KING            35700      60000
+CLARK      KING            29400      60000
+ADAMS      SCOTT           13200      36000
+MILLER     CLARK           15600      29400
 
 SQL> SELECT E.ENAME,M.SAL
   2  FROM EMP E,EMP M
@@ -137,5 +147,32 @@ JAMES            2850
 MILLER           2450                                                                                                                                                                                                                                                                                       
 
 6 rows selected.
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT E.ENAME,M.SAL FROM EMP E LEFT JOIN EMP M
+  2* ON E.MGR=M.EMPNO AND MOD(M.SAL,100)=50
+SQL> /
+
+ENAME             SAL
+---------- ----------
+SMITH
+ALLEN            2850
+WARD             2850
+JONES
+MARTIN           2850
+BLAKE
+CLARK
+SCOTT
+KING
+TURNER           2850
+ADAMS
+JAMES            2850
+FORD
+MILLER           2450
+
+14 rows selected.
+
 
 SQL> SPOOL OFF;

@@ -1,0 +1,180 @@
+SQL> SELECT ENAME FROM EMP WHERE EMPNO IN (SELECT MGR FROM EMP WHERE ENAME IN 'SMITH');
+
+ENAME                                                                                                                                                                                                                                                                                                       
+----------                                                                                                                                                                                                                                                                                                  
+FORD                                                                                                                                                                                                                                                                                                        
+
+SQL> SELECT M.ENAME FROM EMP E,EMP M WHERE E.MGR=M.EMPNO AND E.NAME IN 'SMITH';
+SELECT M.ENAME FROM EMP E,EMP M WHERE E.MGR=M.EMPNO AND E.NAME IN 'SMITH'
+                                                        *
+ERROR at line 1:
+ORA-00904: "E"."NAME": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1* SELECT M.ENAME FROM EMP E,EMP M WHERE E.MGR=M.EMPNO AND E.ENAME IN 'SMITH'
+SQL> /
+
+ENAME                                                                                                                                                                                                                                                                                                       
+----------                                                                                                                                                                                                                                                                                                  
+FORD                                                                                                                                                                                                                                                                                                        
+
+SQL> SELECT ENAME FROM EMP WHERE EMPNO IN (SELECT MGR FROM EMP WHERE ENAME IN 'ADAMS');
+
+ENAME                                                                                                                                                                                                                                                                                                       
+----------                                                                                                                                                                                                                                                                                                  
+SCOTT                                                                                                                                                                                                                                                                                                       
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1* SELECT ENAME FROM EMP WHERE EMPNO IN (SELECT MGR FROM EMP WHERE EMPNO IN (SELECT MGR FROM EMP WHERE ENAME IN 'ADAMS'))
+SQL> SE/
+SP2-0042: unknown command "SE/" - rest of line ignored.
+SQL> ED
+Wrote file afiedt.buf
+
+  1* SELECT ENAME FROM EMP WHERE EMPNO IN (SELECT MGR FROM EMP WHERE EMPNO IN (SELECT MGR FROM EMP WHERE ENAME IN 'ADAMS'))
+SQL> /
+
+ENAME                                                                                                                                                                                                                                                                                                       
+----------                                                                                                                                                                                                                                                                                                  
+JONES                                                                                                                                                                                                                                                                                                       
+
+SQL> SELECT ENAME FROM EMP WHERE EMPNO IN (SELECT MGR FROM EMP WHERE ENAME IN 'JONES');
+
+ENAME                                                                                                                                                                                                                                                                                                       
+----------                                                                                                                                                                                                                                                                                                  
+KING                                                                                                                                                                                                                                                                                                        
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1* SELECT DNAME FROM DEPT WHERE DEPTNO IN (SELECT DEPTNO FROM EMP WHERE EMPNO IN (SELECT MGR FROM EMP WHERE ENAME IN 'JONES'))
+SQL> /
+
+DNAME                                                                                                                                                                                                                                                                                                       
+--------------                                                                                                                                                                                                                                                                                              
+ACCOUNTING                                                                                                                                                                                                                                                                                                  
+
+SQL> SELECT d.dname
+  2  FROM dept d
+  3  WHERE d.deptno = (
+  4      SELECT e.deptno
+  5      FROM emp e
+  6      WHERE e.empno = (
+  7          SELECT mgr
+  8          FROM emp
+  9          WHERE ename = 'JONES'
+ 10      )
+ 11  );
+
+DNAME                                                                                                                                                                                                                                                                                                       
+--------------                                                                                                                                                                                                                                                                                              
+ACCOUNTING                                                                                                                                                                                                                                                                                                  
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1* SELECT SAL FROM EMP WHERE SAL IN (SELECT SAL FROM EMP WHERE EMPNO IN (SELECT MGR FROM EMP WHERE ENAME IN 'MILLER'))
+SQL> /
+
+       SAL                                                                                                                                                                                                                                                                                                  
+----------                                                                                                                                                                                                                                                                                                  
+      2450                                                                                                                                                                                                                                                                                                  
+
+SQL> SELECT sal
+  2  FROM emp
+  3  WHERE empno = (
+  4      SELECT mgr
+  5      FROM emp
+  6      WHERE ename = 'MILLER'
+  7  );
+
+       SAL                                                                                                                                                                                                                                                                                                  
+----------                                                                                                                                                                                                                                                                                                  
+      2450                                                                                                                                                                                                                                                                                                  
+
+SQL> SELECT LOC FROM DEPT WHERE DEPTNO IN (SELECT DEPTNO FROM EMP WHERE EMPNO IN (SELECT MGR FROM EMP WHERE EMPNO IN (SELECT MGR FROM EMP WHERE ENAME IN 'SMITH'));
+SELECT LOC FROM DEPT WHERE DEPTNO IN (SELECT DEPTNO FROM EMP WHERE EMPNO IN (SELECT MGR FROM EMP WHERE EMPNO IN (SELECT MGR FROM EMP WHERE ENAME IN 'SMITH'))
+                                                                                                                                                            *
+ERROR at line 1:
+ORA-00907: missing right parenthesis 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1* SELECT LOC FROM DEPT WHERE DEPTNO IN (SELECT DEPTNO FROM EMP WHERE EMPNO IN (SELECT MGR FROM EMP WHERE EMPNO IN (SELECT MGR FROM EMP WHERE ENAME IN 'SMITH')))
+SQL> /
+
+LOC                                                                                                                                                                                                                                                                                                         
+-------------                                                                                                                                                                                                                                                                                               
+DALLAS                                                                                                                                                                                                                                                                                                      
+
+SQL> SELECT ENAME FROM EMP WHERE MGR IN (SELECT EMPNO FROM EMP WHERE ENAME IN 'BLAKE');
+
+ENAME                                                                                                                                                                                                                                                                                                       
+----------                                                                                                                                                                                                                                                                                                  
+ALLEN                                                                                                                                                                                                                                                                                                       
+WARD                                                                                                                                                                                                                                                                                                        
+MARTIN                                                                                                                                                                                                                                                                                                      
+TURNER                                                                                                                                                                                                                                                                                                      
+JAMES                                                                                                                                                                                                                                                                                                       
+
+SQL> SELECT COUNT(ENAME) FROM EMP WHERE MGR IN (SELECT EMPNO FROM EMP WHERE ENAME IN 'KING');
+
+COUNT(ENAME)                                                                                                                                                                                                                                                                                                
+------------                                                                                                                                                                                                                                                                                                
+           3                                                                                                                                                                                                                                                                                                
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1* SELECT COUNT(*) FROM EMP WHERE MGR IN (SELECT EMPNO FROM EMP WHERE ENAME IN 'KING')
+SQL> /
+
+  COUNT(*)                                                                                                                                                                                                                                                                                                  
+----------                                                                                                                                                                                                                                                                                                  
+         3                                                                                                                                                                                                                                                                                                  
+
+SQL> SELECT * FROM EMP WHERE MGR IN (SELECT EMPNO FROM EMP WHERE ENAME IN 'KING');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                                                                                                                       
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                                                                                                                       
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20                                                                                                                                                                                                                       
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30                                                                                                                                                                                                                       
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10                                                                                                                                                                                                                       
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1* SELECT ENAME FROM EMP WHERE EMPNO IN (SELECT ENAME FROM EMP WHERE EMPNO IN (SELECT MGR FROM EMP WHERE ENAME IN 'BLAKE'))
+SQL> /
+SELECT ENAME FROM EMP WHERE EMPNO IN (SELECT ENAME FROM EMP WHERE EMPNO IN (SELECT MGR FROM EMP WHERE ENAME IN 'BLAKE'))
+                                             *
+ERROR at line 1:
+ORA-01722: invalid number 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1* SELECT ENAME FROM EMP WHERE MGR IN (SELECT MGR FROM EMP WHERE ENAME IN 'BLAKE')
+SQL> /
+
+ENAME                                                                                                                                                                                                                                                                                                       
+----------                                                                                                                                                                                                                                                                                                  
+CLARK                                                                                                                                                                                                                                                                                                       
+BLAKE                                                                                                                                                                                                                                                                                                       
+JONES                                                                                                                                                                                                                                                                                                       
+
+SQL> SELECT COUNT(*) FROM EMP WHERE MGR IN (SELECT MGR FROM EMP WHERE ENAME IN 'FORD');
+
+  COUNT(*)                                                                                                                                                                                                                                                                                                  
+----------                                                                                                                                                                                                                                                                                                  
+         2                                                                                                                                                                                                                                                                                                  
+
+SQL> SPOOL OFF;

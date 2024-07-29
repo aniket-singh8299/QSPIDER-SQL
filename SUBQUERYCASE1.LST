@@ -1,0 +1,295 @@
+SQL> SELECT ENAME FROM EMP
+  2  WHERE SAL>(SELECT SAL FROM EMP WHERE ENAME LIKE 'SMITH');
+
+ENAME                                                                                                                                                                                                                                                                                                       
+----------                                                                                                                                                                                                                                                                                                  
+ALLEN                                                                                                                                                                                                                                                                                                       
+WARD                                                                                                                                                                                                                                                                                                        
+JONES                                                                                                                                                                                                                                                                                                       
+MARTIN                                                                                                                                                                                                                                                                                                      
+BLAKE                                                                                                                                                                                                                                                                                                       
+CLARK                                                                                                                                                                                                                                                                                                       
+SCOTT                                                                                                                                                                                                                                                                                                       
+KING                                                                                                                                                                                                                                                                                                        
+TURNER                                                                                                                                                                                                                                                                                                      
+ADAMS                                                                                                                                                                                                                                                                                                       
+JAMES                                                                                                                                                                                                                                                                                                       
+FORD                                                                                                                                                                                                                                                                                                        
+MILLER                                                                                                                                                                                                                                                                                                      
+
+13 rows selected.
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME FROM EMP
+  2* WHERE SAL>(SELECT SAL FROM EMP WHERE ENAME LIKE 'ADAMS')
+SQL> /
+
+ENAME                                                                                                                                                                                                                                                                                                       
+----------                                                                                                                                                                                                                                                                                                  
+ALLEN                                                                                                                                                                                                                                                                                                       
+WARD                                                                                                                                                                                                                                                                                                        
+JONES                                                                                                                                                                                                                                                                                                       
+MARTIN                                                                                                                                                                                                                                                                                                      
+BLAKE                                                                                                                                                                                                                                                                                                       
+CLARK                                                                                                                                                                                                                                                                                                       
+SCOTT                                                                                                                                                                                                                                                                                                       
+KING                                                                                                                                                                                                                                                                                                        
+TURNER                                                                                                                                                                                                                                                                                                      
+FORD                                                                                                                                                                                                                                                                                                        
+MILLER                                                                                                                                                                                                                                                                                                      
+
+11 rows selected.
+
+SQL> SELECT ENAME,SAL FROM EMP WHERE SAL<(SELECT SAL FROM EMP WHERE ENAME LIKE 'KING');
+
+ENAME             SAL                                                                                                                                                                                                                                                                                       
+---------- ----------                                                                                                                                                                                                                                                                                       
+SMITH             800                                                                                                                                                                                                                                                                                       
+ALLEN            1600                                                                                                                                                                                                                                                                                       
+WARD             1250                                                                                                                                                                                                                                                                                       
+JONES            2975                                                                                                                                                                                                                                                                                       
+MARTIN           1250                                                                                                                                                                                                                                                                                       
+BLAKE            2850                                                                                                                                                                                                                                                                                       
+CLARK            2450                                                                                                                                                                                                                                                                                       
+SCOTT            3000                                                                                                                                                                                                                                                                                       
+TURNER           1500                                                                                                                                                                                                                                                                                       
+ADAMS            1100                                                                                                                                                                                                                                                                                       
+JAMES             950                                                                                                                                                                                                                                                                                       
+FORD             3000                                                                                                                                                                                                                                                                                       
+MILLER           1300                                                                                                                                                                                                                                                                                       
+
+13 rows selected.
+
+SQL> SELECT ENAME,DEPTNO FROM EMP
+  2  WHERE DEPTNO=(SELECT DEPTNO FROM EMP WHERE ENAME IN 'JONES');
+
+ENAME          DEPTNO                                                                                                                                                                                                                                                                                       
+---------- ----------                                                                                                                                                                                                                                                                                       
+SMITH              20                                                                                                                                                                                                                                                                                       
+JONES              20                                                                                                                                                                                                                                                                                       
+SCOTT              20                                                                                                                                                                                                                                                                                       
+ADAMS              20                                                                                                                                                                                                                                                                                       
+FORD               20                                                                                                                                                                                                                                                                                       
+
+SQL> SELECT ENAME,JOB FROM EMP
+  2  WHERE JOB=(SELECT JOB FROM EMP WHERE ENAME='JAMES');
+
+ENAME      JOB                                                                                                                                                                                                                                                                                              
+---------- ---------                                                                                                                                                                                                                                                                                        
+SMITH      CLERK                                                                                                                                                                                                                                                                                            
+ADAMS      CLERK                                                                                                                                                                                                                                                                                            
+JAMES      CLERK                                                                                                                                                                                                                                                                                            
+MILLER     CLERK                                                                                                                                                                                                                                                                                            
+
+SQL> SELECT ENAME,SAL*12 AS ANNUAL_SAL,EMPNO FROM EMP
+  2  WHERE SAL*12 >(SELECT SAL*12 FROM EMP WHERE ENAME LIKE 'WARDS');
+
+no rows selected
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME,SAL*12 AS ANNUAL_SAL,EMPNO FROM EMP
+  2* WHERE SAL*12 >(SELECT SAL*12 FROM EMP WHERE ENAME LIKE 'WARD')
+SQL> /
+
+ENAME      ANNUAL_SAL      EMPNO                                                                                                                                                                                                                                                                            
+---------- ---------- ----------                                                                                                                                                                                                                                                                            
+ALLEN           19200       7499                                                                                                                                                                                                                                                                            
+JONES           35700       7566                                                                                                                                                                                                                                                                            
+BLAKE           34200       7698                                                                                                                                                                                                                                                                            
+CLARK           29400       7782                                                                                                                                                                                                                                                                            
+SCOTT           36000       7788                                                                                                                                                                                                                                                                            
+KING            60000       7839                                                                                                                                                                                                                                                                            
+TURNER          18000       7844                                                                                                                                                                                                                                                                            
+FORD            36000       7902                                                                                                                                                                                                                                                                            
+MILLER          15600       7934                                                                                                                                                                                                                                                                            
+
+9 rows selected.
+
+SQL> SELECT ENAME,HIREDATE FROM EMP WHERE HIREDATE <(SELECT HIREDATE FROM EMP WHERE ENAME IN 'SCOTT');
+
+ENAME      HIREDATE                                                                                                                                                                                                                                                                                         
+---------- ---------                                                                                                                                                                                                                                                                                        
+SMITH      17-DEC-80                                                                                                                                                                                                                                                                                        
+ALLEN      20-FEB-81                                                                                                                                                                                                                                                                                        
+WARD       22-FEB-81                                                                                                                                                                                                                                                                                        
+JONES      02-APR-81                                                                                                                                                                                                                                                                                        
+MARTIN     28-SEP-81                                                                                                                                                                                                                                                                                        
+BLAKE      01-MAY-81                                                                                                                                                                                                                                                                                        
+CLARK      09-JUN-81                                                                                                                                                                                                                                                                                        
+KING       17-NOV-81                                                                                                                                                                                                                                                                                        
+TURNER     08-SEP-81                                                                                                                                                                                                                                                                                        
+JAMES      03-DEC-81                                                                                                                                                                                                                                                                                        
+FORD       03-DEC-81                                                                                                                                                                                                                                                                                        
+MILLER     23-JAN-82                                                                                                                                                                                                                                                                                        
+
+12 rows selected.
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1* SELECT ENAME,HIREDATE FROM EMP WHERE HIREDATE >(SELECT HIREDATE FROM EMP WHERE JOB IN 'PRESIDENT')
+SQL> /
+
+ENAME      HIREDATE                                                                                                                                                                                                                                                                                         
+---------- ---------                                                                                                                                                                                                                                                                                        
+SCOTT      19-APR-87                                                                                                                                                                                                                                                                                        
+ADAMS      23-MAY-87                                                                                                                                                                                                                                                                                        
+JAMES      03-DEC-81                                                                                                                                                                                                                                                                                        
+FORD       03-DEC-81                                                                                                                                                                                                                                                                                        
+MILLER     23-JAN-82                                                                                                                                                                                                                                                                                        
+
+SQL> SELECT ENAME,SAL FROM EMP WHERE SAL<(SELECT SAL FROM EMP WHERE EMPNO IN 7839);
+
+ENAME             SAL                                                                                                                                                                                                                                                                                       
+---------- ----------                                                                                                                                                                                                                                                                                       
+SMITH             800                                                                                                                                                                                                                                                                                       
+ALLEN            1600                                                                                                                                                                                                                                                                                       
+WARD             1250                                                                                                                                                                                                                                                                                       
+JONES            2975                                                                                                                                                                                                                                                                                       
+MARTIN           1250                                                                                                                                                                                                                                                                                       
+BLAKE            2850                                                                                                                                                                                                                                                                                       
+CLARK            2450                                                                                                                                                                                                                                                                                       
+SCOTT            3000                                                                                                                                                                                                                                                                                       
+TURNER           1500                                                                                                                                                                                                                                                                                       
+ADAMS            1100                                                                                                                                                                                                                                                                                       
+JAMES             950                                                                                                                                                                                                                                                                                       
+FORD             3000                                                                                                                                                                                                                                                                                       
+MILLER           1300                                                                                                                                                                                                                                                                                       
+
+13 rows selected.
+
+SQL> SELECT * FROM EMP WHERE HIREDATE<(SELECT HIREDATE FROM EMP WHERE ENAME IN 'MILLER');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                                                                                                                       
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                                                                                                                       
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20                                                                                                                                                                                                                       
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30                                                                                                                                                                                                                       
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30                                                                                                                                                                                                                       
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20                                                                                                                                                                                                                       
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30                                                                                                                                                                                                                       
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30                                                                                                                                                                                                                       
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10                                                                                                                                                                                                                       
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10                                                                                                                                                                                                                       
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30                                                                                                                                                                                                                       
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30                                                                                                                                                                                                                       
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20                                                                                                                                                                                                                       
+
+11 rows selected.
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1* SELECT ENAME,EMPNO FROM EMP WHERE SAL<(SELECT SAL FROM EMP WHERE ENAME IN 'ALLEN')
+SQL> /
+
+ENAME           EMPNO                                                                                                                                                                                                                                                                                       
+---------- ----------                                                                                                                                                                                                                                                                                       
+SMITH            7369                                                                                                                                                                                                                                                                                       
+WARD             7521                                                                                                                                                                                                                                                                                       
+MARTIN           7654                                                                                                                                                                                                                                                                                       
+TURNER           7844                                                                                                                                                                                                                                                                                       
+ADAMS            7876                                                                                                                                                                                                                                                                                       
+JAMES            7900                                                                                                                                                                                                                                                                                       
+MILLER           7934                                                                                                                                                                                                                                                                                       
+
+7 rows selected.
+
+SQL> SELECT ENAME ,SAL FROM EMP WHERE SAL>(SELECT SAL FROM EMP WHERE ENAME IN 'MILLER') AND SAL<(SELECT SAL FROM EMP WHERE ENAME IN 'ALLEN');
+
+ENAME             SAL                                                                                                                                                                                                                                                                                       
+---------- ----------                                                                                                                                                                                                                                                                                       
+TURNER           1500                                                                                                                                                                                                                                                                                       
+
+SQL> SELECT * FROM EMP WHERE DEPTNO IN 20 AND JOB=(SELECT JOB FROM EMP WHERE ENAME IN 'SMITH');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                                                                                                                       
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                                                                                                                       
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20                                                                                                                                                                                                                       
+      7876 ADAMS      CLERK           7788 23-MAY-87       1100                    20                                                                                                                                                                                                                       
+
+SQL> SELECT * FROM EMP WHERE JOB IN 'MANAGER' AND DEPTNO =(SELECT DEPTNO FROM EMP WHERE ENAME IN 'TURNER');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                                                                                                                       
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                                                                                                                       
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30                                                                                                                                                                                                                       
+
+SQL> SELECT ENAME,HIREDATE FROM EMP WHERE HIREDATE>'31-DEC-1980' AND HIREDATE<(SELECT HIREDATE FROM EMP WHERE ENAME ='KING');
+
+ENAME      HIREDATE                                                                                                                                                                                                                                                                                         
+---------- ---------                                                                                                                                                                                                                                                                                        
+ALLEN      20-FEB-81                                                                                                                                                                                                                                                                                        
+WARD       22-FEB-81                                                                                                                                                                                                                                                                                        
+JONES      02-APR-81                                                                                                                                                                                                                                                                                        
+MARTIN     28-SEP-81                                                                                                                                                                                                                                                                                        
+BLAKE      01-MAY-81                                                                                                                                                                                                                                                                                        
+CLARK      09-JUN-81                                                                                                                                                                                                                                                                                        
+TURNER     08-SEP-81                                                                                                                                                                                                                                                                                        
+
+7 rows selected.
+
+SQL> SELECT ENAME,SAL*12 AS ANNUAL_SAL FROM EMP WHERE SAL<(SELECT SAL FROM EMP WHERE ENAME IN 'BLAKE' AND SAL>3500);
+
+no rows selected
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1* SELECT ENAME,SAL*12 AS ANNUAL_SAL FROM EMP WHERE SAL<(SELECT SAL FROM EMP WHERE ENAME IN 'BLAKE') AND SAL>3500
+SQL> /
+
+no rows selected
+
+SQL> SELECT * FROM EMP WHERE SAL>(SELECT SAL FROM EMP WHERE ENAME='SCOTT') AND SAL<(SELECT SAL FROM EMP WHERE ENAME IN 'KING');
+
+no rows selected
+
+SQL> SELECT ENAME FROM EMP WHERE ENAME LIKE '%A' AND DEPTNO =(SELECT DEPTNO FROM EMP WHERE ENAME ='BLAKE');
+
+no rows selected
+
+SQL> SELECT ENAME,COMM FROM EMP WHERE COMM AND JOB IN (SELECT COMM,JOB FROM EMP WHERE ENAME IN 'SMITH');
+SELECT ENAME,COMM FROM EMP WHERE COMM AND JOB IN (SELECT COMM,JOB FROM EMP WHERE ENAME IN 'SMITH')
+                                      *
+ERROR at line 1:
+ORA-00920: invalid relational operator 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1* SELECT ENAME,COMM FROM EMP WHERE COMM IS NOT NULL AND JOB = (SELECT JOB FROM EMP WHERE ENAME IN 'SMITH')
+SQL> /
+
+no rows selected
+
+SQL> SELECT * FROM EMP WHERE JOB IN 'CLERK' AND DEPTNO=(SELECT DEPTNO FROM EMP WHERE ENAME IN 'TURNER');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                                                                                                                       
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                                                                                                                       
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30                                                                                                                                                                                                                       
+
+SQL> SELECT ENAME,JOB,SAL FROM EMP
+  2  WHERE SAL*12 >(SELECT SAL*12 FROM EMP WHERE ENAME IN 'SMITH') AND SAL*12<(SELECT SAL*12 FROM EMP WHERE ENAME IN 'KING');
+
+ENAME      JOB              SAL                                                                                                                                                                                                                                                                             
+---------- --------- ----------                                                                                                                                                                                                                                                                             
+ALLEN      SALESMAN        1600                                                                                                                                                                                                                                                                             
+WARD       SALESMAN        1250                                                                                                                                                                                                                                                                             
+JONES      MANAGER         2975                                                                                                                                                                                                                                                                             
+MARTIN     SALESMAN        1250                                                                                                                                                                                                                                                                             
+BLAKE      MANAGER         2850                                                                                                                                                                                                                                                                             
+CLARK      MANAGER         2450                                                                                                                                                                                                                                                                             
+SCOTT      ANALYST         3000                                                                                                                                                                                                                                                                             
+TURNER     SALESMAN        1500                                                                                                                                                                                                                                                                             
+ADAMS      CLERK           1100                                                                                                                                                                                                                                                                             
+JAMES      CLERK            950                                                                                                                                                                                                                                                                             
+FORD       ANALYST         3000                                                                                                                                                                                                                                                                             
+MILLER     CLERK           1300                                                                                                                                                                                                                                                                             
+
+12 rows selected.
+
+SQL> SPOOL OFF;

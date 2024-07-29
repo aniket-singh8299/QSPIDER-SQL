@@ -1,0 +1,56 @@
+SQL> ED
+Wrote file afiedt.buf
+
+  1  CREATE TABLE Events (
+  2      EventID NUMBER(5) PRIMARY KEY CHECK(EVENTID>0) CHECK(LENGTH(EVENTID)=5),
+  3      EventName VARCHAR(30) NOT NULL,
+  4      EventDate DATE NOT NULL,
+  5      Location VARCHAR(255) NOT NULL,
+  6      OrganizerID NUMBER(5) CHECK(ORGANIZERID>0) CHECK(LENGTH(ORGANIZERID)=5)
+  7* )
+SQL> /
+
+Table created.
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  CREATE TABLE Tickets (
+  2      TicketID NUMBER(5) PRIMARY KEY CHECK(TICKETID>0) CHECK(LENGTH(TICKETID)=8),
+  3      SeatNumber VARCHAR(10) NOT NULL CHECK(LENGTH(SEATNUMBER)=20),
+  4      Price NUMBER(5) CHECK(PRICE>0)  ,
+  5      PurchaseDate DATE NOT NULL
+  6* )
+SQL> /
+
+Table created.
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  CREATE TABLE Courses (
+  2      CourseID NUMBER(5) PRIMARY KEY  CHECK(CourseID>0) CHECK(LENGTH(CourseID)=5),
+  3      CourseName VARCHAR(40) NOT NULL,
+  4      Description VARCHAR(300),
+  5      Credits NUMBER(2),
+  6      DepartmentID NUMBER NOT NULL
+  7* )
+SQL> /
+
+Table created.
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  CREATE TABLE Classes (
+  2      ClassID NUMBER PRIMARY KEY CHECK(classID>0) CHECK(LENGTH(classID)=2) ,
+  3      CourseID NUMBER NOT NULL,
+  4      InstructorID NUMBER(5) NOT NULL CHECK(InstructorID>0) CHECK(LENGTH(InstructorID)=2),
+  5      Schedule VARCHAR(30) NOT NULL,
+  6      Location VARCHAR(70)
+  7*     )
+SQL> /
+
+Table created.
+
+SQL> SPOOL OFF;
